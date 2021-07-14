@@ -1,4 +1,4 @@
-package ru.myprojects.geekbrains.geekbrainsnotes;
+package ru.myprojects.geekbrains.geekbrainsnotes.UI;
 
 public enum NoteStatus {
     IS_IN_FAVOURITE,
