@@ -12,16 +12,9 @@ import ru.myprojects.geekbrains.geekbrainsnotes.UI.NoteStatus;
 
 public class MainActivity extends AppCompatActivity {
 
-    LinkedList<Note> noteList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        LinkedList<Note> noteList = new LinkedList<>(Collections.singletonList
-                (new Note("Hello world", "Hello world!!",
-                        NoteStatus.IS_NOT_IN_FAVOURITE, "today")));
-
     }
 }

@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.NoteFragment">
+    tools:context=".UI.Fragments.NoteFragment">
 
     <ImageButton
         android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_arrow_back_24"
+        android:layout_width="@dimen/spacing_very_huge_40"
+        android:layout_height="@dimen/spacing_very_huge_40"
         tools:ignore="MissingConstraints"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,8 +18,9 @@
 
     <ImageButton
         android:id="@+id/btn_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_confirm"
+        android:layout_width="@dimen/spacing_very_huge_40"
+        android:layout_height="@dimen/spacing_very_huge_40"
         tools:ignore="MissingConstraints"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,6 +28,7 @@
 
     <EditText
         android:id="@+id/header_title"
+        android:text="@string/headline_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"

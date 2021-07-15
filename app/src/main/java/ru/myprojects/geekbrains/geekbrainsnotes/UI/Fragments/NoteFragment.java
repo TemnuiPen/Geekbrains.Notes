@@ -1,4 +1,4 @@
-package ru.myprojects.geekbrains.geekbrainsnotes.Fragments;
+package ru.myprojects.geekbrains.geekbrainsnotes.UI.Fragments;
 
 import android.os.Bundle;
 

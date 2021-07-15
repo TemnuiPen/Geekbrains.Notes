@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/note_list"
-        android:name="ru.myprojects.geekbrains.geekbrainsnotes.Fragments.NotesListFragment"
+        android:name="ru.myprojects.geekbrains.geekbrainsnotes.UI.NotesListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </fragment>
