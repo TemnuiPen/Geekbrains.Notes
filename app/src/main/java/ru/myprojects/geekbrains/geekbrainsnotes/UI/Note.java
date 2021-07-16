@@ -19,7 +19,11 @@ public class Note {
         this.date = date;
     }
 
-    private void checkLists(LinkedList<Note> allNotesList, LinkedList<Note> favouriteNotesList) {
+    public Note() {
+        // empty slot
+    }
+
+    void checkLists(LinkedList<Note> allNotesList, LinkedList<Note> favouriteNotesList) {
         checkFullList(allNotesList, favouriteNotesList);
         checkFavouriteList(allNotesList, favouriteNotesList);
     }

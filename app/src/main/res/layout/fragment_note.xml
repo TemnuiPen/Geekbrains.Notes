@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.Fragments.NoteFragment">
+    tools:context=".UI.NoteFragment">
 
     <ImageButton
         android:id="@+id/btn_back"
@@ -27,7 +27,7 @@
     </ImageButton>
 
     <EditText
-        android:id="@+id/header_title"
+        android:id="@+id/headline_editText"
         android:text="@string/headline_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,12 +37,11 @@
     </EditText>
 
     <EditText
-        android:id="@+id/note_text"
+        android:id="@+id/note_text_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_title">
+        app:layout_constraintTop_toBottomOf="@+id/headline_editText">
     </EditText>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

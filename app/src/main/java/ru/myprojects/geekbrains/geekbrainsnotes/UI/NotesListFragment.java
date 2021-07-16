@@ -1,5 +1,7 @@
 package ru.myprojects.geekbrains.geekbrainsnotes.UI;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -27,7 +30,15 @@ public class NotesListFragment extends Fragment {
     ImageButton settings;
     RecyclerView recyclerView;
 
+    String keyIndex = "Index";
+    String keyTitle = "Title";
+    String keyMainPart = "MainPart";
+    String keyStatus = "Status";
+    String keyDate = "Date";
+
     ItemAdapter adapterForFullList = null;
+
+    Note note;
 
     public NotesListFragment() {
         // Required empty public constructor
@@ -37,6 +48,7 @@ public class NotesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        note = new Note();
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
 
     }
@@ -45,6 +57,7 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        note.checkLists(allNotesList, favouriteNotesList);
     }
 
     private void initView(View view) {
@@ -61,6 +74,18 @@ public class NotesListFragment extends Fragment {
 
         adapterForFullList = new ItemAdapter(allNotesList);
         recyclerView.setAdapter(adapterForFullList);
+
+        adapterForFullList.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getContext(),NoteActivity.class);
+                intent.putExtra(keyIndex, position);
+                intent.putExtra(keyTitle,allNotesList.get(position).headline);
+                intent.putExtra(keyMainPart,allNotesList.get(position).mainPart);
+                intent.putExtra(keyStatus,allNotesList.get(position).status);
+                intent.putExtra(keyDate,allNotesList.get(position).date);
+            }
+        });
     }
     LinkedList<Note> allNotesList = new LinkedList<>(Collections.singletonList
             (new Note("Hello world", "Hello world!!",
