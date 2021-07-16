@@ -10,13 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import ru.myprojects.geekbrains.geekbrainsnotes.R;
 
 public class NoteActivity extends AppCompatActivity {
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.fragment_note);
+        setContentView(R.layout.note_activity);
 
-        //set arguments to fragment
-        NoteFragment noteFragment = new NoteFragment();
-        noteFragment.setArguments(getIntent().getExtras());
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //set arguments to fragment
+            NoteFragment noteFragment = new NoteFragment();
+            noteFragment.setArguments(getIntent().getExtras());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.note_container, noteFragment).commit();
+        }
+        else {
+            finish();
+        }
+
     }
 }

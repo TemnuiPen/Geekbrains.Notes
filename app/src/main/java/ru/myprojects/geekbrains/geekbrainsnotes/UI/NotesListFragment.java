@@ -84,6 +84,7 @@ public class NotesListFragment extends Fragment {
                 intent.putExtra(keyMainPart,allNotesList.get(position).mainPart);
                 intent.putExtra(keyStatus,allNotesList.get(position).status);
                 intent.putExtra(keyDate,allNotesList.get(position).date);
+                startActivity(intent);
             }
         });
     }
