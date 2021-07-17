@@ -54,36 +54,35 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     }
 
     public static NoteFragment newInstance(int index, String headline, String mainPart,
-                                           NoteStatus status, String date) {
+                                           boolean status, String date) {
         NoteFragment fragment = new NoteFragment();
         Bundle arg = new Bundle();
         arg.putInt(fragment.keyIndex, index);
         arg.putString(fragment.keyTitle, headline);
         arg.putString(fragment.keyMainPart, mainPart);
-        arg.putString(fragment.keyStatus, status.toString());
+        arg.putBoolean(fragment.keyStatus, status);
         arg.putString(fragment.keyDate, date);
+        fragment.setArguments(arg);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String strStatus;
+        boolean boolStatus;
         if(getArguments() != null) {
             headline = getArguments().getString(keyTitle);
             mainPart = getArguments().getString(keyMainPart);
-            strStatus = getArguments().getString(keyStatus);
-            favouriteStatus = toNoteStatus(strStatus);
+            boolStatus = getArguments().getBoolean(keyStatus);
+            favouriteStatus = toNoteStatus(boolStatus);
             date = getArguments().getString(keyDate);
             index = getArguments().getInt(keyIndex);
         }
-        intent = new Intent();
-
     }
 
-    private NoteStatus toNoteStatus(String status) {
+    private NoteStatus toNoteStatus(boolean status) {
         NoteStatus noteStatus = NoteStatus.IS_NOT_IN_FAVOURITE;
-        if(status.equals(NoteStatus.IS_IN_FAVOURITE.toString())) {
+        if(status) {
             noteStatus = NoteStatus.IS_IN_FAVOURITE;
         }
         return noteStatus;

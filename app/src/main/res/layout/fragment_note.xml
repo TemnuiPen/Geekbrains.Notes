@@ -28,7 +28,6 @@
 
     <EditText
         android:id="@+id/headline_editText"
-        android:text="@string/headline_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"

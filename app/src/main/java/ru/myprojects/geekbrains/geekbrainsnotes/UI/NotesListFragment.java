@@ -50,7 +50,6 @@ public class NotesListFragment extends Fragment {
         // Inflate the layout for this fragment
         note = new Note();
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
-
     }
 
     @Override
@@ -82,12 +81,24 @@ public class NotesListFragment extends Fragment {
                 intent.putExtra(keyIndex, position);
                 intent.putExtra(keyTitle,allNotesList.get(position).headline);
                 intent.putExtra(keyMainPart,allNotesList.get(position).mainPart);
-                intent.putExtra(keyStatus,allNotesList.get(position).status);
+                intent.putExtra(keyStatus, sendStatus(allNotesList.get(position).status));
                 intent.putExtra(keyDate,allNotesList.get(position).date);
                 startActivity(intent);
             }
         });
     }
+
+    private boolean sendStatus(NoteStatus status) {
+        boolean boolStatus;
+        if(status.equals(NoteStatus.IS_IN_FAVOURITE)){
+            boolStatus = true;
+        }
+        else {
+            boolStatus = false;
+        }
+        return boolStatus;
+    }
+
     LinkedList<Note> allNotesList = new LinkedList<>(Collections.singletonList
             (new Note("Hello world", "Hello world!!",
                     NoteStatus.IS_NOT_IN_FAVOURITE, "today")));
