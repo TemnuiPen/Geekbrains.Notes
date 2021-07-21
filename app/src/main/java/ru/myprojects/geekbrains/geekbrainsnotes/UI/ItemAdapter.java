@@ -15,7 +15,7 @@ import ru.myprojects.geekbrains.geekbrainsnotes.R;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
-    private final LinkedList<Note> noteList;
+    private LinkedList<Note> noteList;
     private OnItemClickListener onItemClickListener;
 
     public ItemAdapter(LinkedList<Note> noteList) {

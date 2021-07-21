@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import ru.myprojects.geekbrains.geekbrainsnotes.MainActivity;
 import ru.myprojects.geekbrains.geekbrainsnotes.R;
 
 /**
@@ -42,12 +44,12 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     String date;
     NoteStatus favouriteStatus;
     int index;
+    ItemAdapter adapter = null;
 
     NoteStatus editTextStatus;
 
     NotesListFragment notesListFragment;
     LinkedList<Note> newNote;
-    Intent intent;
 
     public NoteFragment() {
         // Required empty public constructor
@@ -69,8 +71,9 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        notesListFragment = new NotesListFragment();
         boolean boolStatus;
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             headline = getArguments().getString(keyTitle);
             mainPart = getArguments().getString(keyMainPart);
             boolStatus = getArguments().getBoolean(keyStatus);
@@ -82,7 +85,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
     private NoteStatus toNoteStatus(boolean status) {
         NoteStatus noteStatus = NoteStatus.IS_NOT_IN_FAVOURITE;
-        if(status) {
+        if (status) {
             noteStatus = NoteStatus.IS_IN_FAVOURITE;
         }
         return noteStatus;
@@ -99,7 +102,6 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        checkStatus();
     }
 
     private void initView(View view) {
@@ -110,32 +112,67 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
         btnBack.setOnClickListener(this);
         btnConfirm.setOnClickListener(this);
+        noteHeadline.setOnClickListener(this);
+        noteTextBody.setOnClickListener(this);
 
-    }
-
-
-    private void checkStatus() {
         if (headline != null && mainPart != null) {
             noteHeadline.setText(headline);
             noteTextBody.setText(mainPart);
+        }
+    }
 
-            if(noteHeadline == null && noteTextBody == null) {
-                editTextStatus = NoteStatus.IS_EMPTY;
-            }
-            else editTextStatus = NoteStatus.IS_NOT_EMPTY;
+    private void checkStatus() {
+        if (noteTextBody.getText() != null && noteHeadline.getText() != null) {
+            recreateNote();
+        }
+        else {
+            addNewNote();
+        }
+    }
+
+    private void recreateNote() {
+        if(favouriteStatus == NoteStatus.IS_NOT_IN_FAVOURITE) {
+            Log.d("myLogs", "I am here!!!!!");
+            notesListFragment.allNotesList.remove(index);
+            Log.d("myLogs", "I am here!");
+            addNewNote();
+            adapter = new ItemAdapter(notesListFragment.allNotesList);
+            notesListFragment.recyclerView.setAdapter(adapter);
+        }
+        else if(favouriteStatus == NoteStatus.IS_IN_FAVOURITE) {
+            notesListFragment.allNotesList.remove(index);
+            notesListFragment.favouriteNotesList.remove(index);
+            addNewNote();
+            adapter = new ItemAdapter(notesListFragment.allNotesList);
+            notesListFragment.recyclerView.setAdapter(adapter);
         }
     }
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.btn_back:
-                //will be finished
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+                break;
+            //will be finished
             case R.id.btn_confirm:
-                newNote = new LinkedList<>(Collections.singletonList(new Note
-                        (noteHeadline.getText().toString(),noteTextBody.getText().toString(),
-                                NoteStatus.IS_NOT_IN_FAVOURITE,"today")));
-                notesListFragment.allNotesList.addAll(newNote);
+                checkStatus();
+
+                Intent intentConfirm = new Intent(getContext(), MainActivity.class);
+                startActivity(intentConfirm);
+                break;
+        }
+    }
+    void addNewNote() {
+        headline = noteHeadline.getText().toString();
+        mainPart = noteTextBody.getText().toString();
+
+        if(favouriteStatus == NoteStatus.IS_NOT_IN_FAVOURITE) {
+            notesListFragment.addNewNoteAtAllNoteList(headline, mainPart, favouriteStatus, date);
+        }
+        else if (favouriteStatus == NoteStatus.IS_IN_FAVOURITE) {
+            notesListFragment.addNewNoteAtFavouriteNoteList(headline, mainPart, favouriteStatus, date);
         }
     }
 }

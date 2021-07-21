@@ -37,7 +37,6 @@ public class NotesListFragment extends Fragment {
     String keyDate = "Date";
 
     ItemAdapter adapterForFullList = null;
-
     Note note;
 
     public NotesListFragment() {
@@ -106,5 +105,10 @@ public class NotesListFragment extends Fragment {
     LinkedList<Note> favouriteNotesList = new LinkedList<>(Collections.singletonList
             (new Note("Hello favourites!", "Hello favourites!!",
                     NoteStatus.IS_IN_FAVOURITE, "tonight")));
-
+    void addNewNoteAtAllNoteList(String headline, String mainPart, NoteStatus status, String date) {
+        allNotesList.addFirst(new Note(headline, mainPart, status, date));
+    }
+    void addNewNoteAtFavouriteNoteList(String headline, String mainPart, NoteStatus status, String date){
+        favouriteNotesList.addFirst(new Note(headline, mainPart, status, date));
+    }
 }
