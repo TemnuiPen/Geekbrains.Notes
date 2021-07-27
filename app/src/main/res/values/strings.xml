@@ -2,5 +2,9 @@
     <string name="app_name">Geekbrains.Notes</string>
     <string name="headline_text">Введите название заметки</string>
     <string name="search_rectangle_text">Поиск заметок</string>
+    <string name="settings">Настройки</string>
+    <string name="grid">Сетка</string>
+    <string name="search">Поиск</string>
+    <string name="favourite">Избранное</string>
 
 </resources>

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,13 +45,13 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     String mainPart;
     String date;
     NoteStatus favouriteStatus;
+    boolean boolStatus;
     int index;
     ItemAdapter adapter = null;
 
-    NoteStatus editTextStatus;
+    boolean isLandscape;
 
-    NotesListFragment notesListFragment;
-    LinkedList<Note> newNote;
+    NoteStatus editTextStatus;
 
     public NoteFragment() {
         // Required empty public constructor
@@ -71,8 +73,6 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        notesListFragment = new NotesListFragment();
-        boolean boolStatus;
         if (getArguments() != null) {
             headline = getArguments().getString(keyTitle);
             mainPart = getArguments().getString(keyMainPart);
@@ -115,36 +115,39 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         noteHeadline.setOnClickListener(this);
         noteTextBody.setOnClickListener(this);
 
+        setValuesToView();
+    }
+
+    private void setValuesToView() {
         if (headline != null && mainPart != null) {
             noteHeadline.setText(headline);
             noteTextBody.setText(mainPart);
         }
     }
 
-    private void checkStatus() {
-        if (noteTextBody.getText() != null && noteHeadline.getText() != null) {
-            recreateNote();
-        }
-        else {
-            addNewNote();
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if(isLandscape) {
+            showLandNoteDescription();
         }
     }
 
-    private void recreateNote() {
-        if(favouriteStatus == NoteStatus.IS_NOT_IN_FAVOURITE) {
-            Log.d("myLogs", "I am here!!!!!");
-            notesListFragment.allNotesList.remove(index);
-            Log.d("myLogs", "I am here!");
-            addNewNote();
-            adapter = new ItemAdapter(notesListFragment.allNotesList);
-            notesListFragment.recyclerView.setAdapter(adapter);
+    private void showLandNoteDescription() {
+        NoteFragment fragment= NoteFragment.newInstance(index, headline, mainPart, boolStatus, date);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.note_container, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
+    }
+
+    private void checkStatus() {
+        if (noteTextBody.getText() != null && noteHeadline.getText() != null) {
         }
-        else if(favouriteStatus == NoteStatus.IS_IN_FAVOURITE) {
-            notesListFragment.allNotesList.remove(index);
-            notesListFragment.favouriteNotesList.remove(index);
+        else {
             addNewNote();
-            adapter = new ItemAdapter(notesListFragment.allNotesList);
-            notesListFragment.recyclerView.setAdapter(adapter);
         }
     }
 
@@ -168,11 +171,5 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         headline = noteHeadline.getText().toString();
         mainPart = noteTextBody.getText().toString();
 
-        if(favouriteStatus == NoteStatus.IS_NOT_IN_FAVOURITE) {
-            notesListFragment.addNewNoteAtAllNoteList(headline, mainPart, favouriteStatus, date);
-        }
-        else if (favouriteStatus == NoteStatus.IS_IN_FAVOURITE) {
-            notesListFragment.addNewNoteAtFavouriteNoteList(headline, mainPart, favouriteStatus, date);
-        }
     }
 }

@@ -24,6 +24,7 @@ public class NoteActivity extends AppCompatActivity {
                     .replace(R.id.note_container, noteFragment).commit();
         }
         else {
+
             finish();
         }
 

@@ -2,6 +2,7 @@ package ru.myprojects.geekbrains.geekbrainsnotes.UI;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -59,8 +60,6 @@ public class NotesListFragment extends Fragment {
     }
 
     private void initView(View view) {
-        searchForNotes = view.findViewById(R.id.search_notes);
-        settings = view.findViewById(R.id.btn_settings);
         recyclerView = view.findViewById(R.id.note_list_recyclerView);
         initAdapter();
     }
@@ -86,6 +85,8 @@ public class NotesListFragment extends Fragment {
             }
         });
     }
+
+
 
     private boolean sendStatus(NoteStatus status) {
         boolean boolStatus;
