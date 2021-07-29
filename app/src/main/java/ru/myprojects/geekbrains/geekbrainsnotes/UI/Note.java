@@ -12,6 +12,7 @@ public class Note {
 
     boolean favouriteListFlag = false;
 
+    @SuppressWarnings("unchecked")
     public Note(String headline, String mainPart, NoteStatus status, String date) {
         this.headline = headline;
         this.mainPart = mainPart;

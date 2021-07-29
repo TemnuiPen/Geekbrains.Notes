@@ -1,15 +1,20 @@
 package ru.myprojects.geekbrains.geekbrainsnotes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -22,19 +27,47 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_super_main);
         initView();
     }
 
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //регистрация drawer
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle
+                (this, drawerLayout, toolbar,
+                        (R.string.open), (R.string.Close));
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        //обработка навигационного меню
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if(sendNavigationFragment(id)){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return true;
+                }
+                else return false;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
+        if(sendNavigationFragment(id)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean sendNavigationFragment(int id) {
         switch(id) {
             case R.id.action_favourite:
                 //some code
@@ -48,8 +81,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 //some code
                 return true;
+            case R.id.action_recently_deleted:
+                //some code
+                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     @Override

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="nav_bar_size">200dp</dimen>
+    <dimen name="item_size">80dp</dimen>
     <dimen name="star_size">56dp</dimen>
 
     <dimen name="spacing_very_huge_40">40dp</dimen>
@@ -10,5 +12,6 @@
     <dimen name="spacing_tiny_4">4dp</dimen>
 
     <dimen name="text_size_tv_headline">42sp</dimen>
+    <dimen name="text_menu_size">30sp</dimen>
     <dimen name="text_size_date">16sp</dimen>
 </resources>
